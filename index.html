@@ -1,0 +1,327 @@
+<!-- header template -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+ <head>
+  <title>in-my-cloud.com</title>
+  <link rel="shortcut icon" href="images/icons/icon-lock.png" type="image/x-icon">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="author" content="Jason Gerfen [jason.gerfen@gmail.com]" />
+  <meta name="robots" content="index,follow" />
+
+  <!-- jQuery UI CSS & default CSS -->
+  <link rel="stylesheet" type="text/css" href="css/overcast/jquery-ui-1.8.5.custom.css" />
+  <link rel="stylesheet" type="text/css" href="css/reset.css" />
+  <link rel="stylesheet" type="text/css" href="css/default.css" />
+
+  <!-- jQuery, UI and cookie plugin -->
+  <script type="text/javascript" src="js/jquery-1.4.3.min.js"></script>
+  <script type="text/javascript" src="js/jquery-ui-1.8.5.custom.min.js"></script>
+  <script type="text/javascript" src="js/jquery.cookie.js"></script>
+
+  <!-- pidCrypt encryption libraries -->
+  <script src="js/pidCrypt/pidcrypt.js"></script>
+  <script src="js/pidCrypt/pidcrypt_util.js"></script>
+  <script src="js/pidCrypt/base64.js"></script>
+  <script src="js/pidCrypt/md5.js"></script>
+  <script src="js/pidCrypt/asn1.js"></script>
+  <script src="js/pidCrypt/jsbn.js"></script>
+  <script src="js/pidCrypt/rng.js"></script>
+  <script src="js/pidCrypt/prng4.js"></script>
+  <script src="js/pidCrypt/rsa.js"></script>
+  <script src="js/pidCrypt/aes_core.js"></script>
+  <script src="js/pidCrypt/aes_cbc.js"></script>
+
+  <!-- jQuery.pidCrypt plugin -->
+  <script type="text/javascript" src="js/jquery.pidCrypt.js"></script>
+
+  <!-- jQuery.handleStorage plugin
+  <script type="text/javascript" src="js/jquery.handleStorage.js"></script>-->
+
+  <!-- move these into their own script -->
+  <script type="text/javascript">
+   var $j = jQuery.noConflict();
+   $j(document).ready(function(){
+
+    /* page defaults */
+    var $loading = '<img src="images/loading.gif">';
+
+    /* rotating backround */
+/*
+    var a = new Array(), p, cb = 0;
+    for(var i = 1; i < 22; i++){
+     p = (i.toString().length == 2) ? '0'+i+'.jpg' : '00'+i+'.jpg';
+     a[i] = 'images/backgrounds/'+p;
+    }
+    setInterval(function(){
+     var img = a[Math.floor(Math.random()*a.length)];
+     if (img) {
+      $j('body').fadeOut('slow')
+                .css({'background': 'url('+img+') no-repeat center center fixed',
+                      'overflow': 'hidden',
+                      '-webkit-background-size': 'cover',
+                      '-moz-background-size': 'cover',
+                      '-o-background-size': 'cover',
+                      'background-size': 'cover'})
+                .fadeIn('slow');
+     }
+    }, 3000);
+*/
+
+    /* handle asymmetric encryption of form data */
+    $j('#loginFrm').pidCrypt();
+    $j('#registerFrm').pidCrypt();
+
+    /* fade in divs */
+    $j('#login, #default').fadeToggle();
+
+    /* allow draggable items */
+    $j('#login, #default, #register').draggable({
+     cursor:'move',
+     zIndex:9999,
+     stack:'div',
+     cancel:'mapContainer'
+    });
+
+    /* load registration form */
+    $j('#reg1, #reg2, #reg3').click(function(){
+     $j('#register, #default').fadeToggle();
+     if ($j(this).attr('id')!=='reg3'){
+      initialize();
+      $j('#uuid').val(uuid(null));
+      $j('#email').focus();
+     }
+    });
+
+    /* module loader */
+    function $loadModules($key, $value){
+     $j.ajax({
+      url:'proxy.php',
+      type:'post',
+      data:'module='+$value,
+      context:$j('#'+$key),
+      dataType:'html',
+      success: function($response){
+       $j('#'+$key).hide().html($response).fadeIn('slow');
+      }
+     });
+     return false;
+    }
+   });
+
+   /* generate a uuid */
+   function uuid(len){
+    var chars = '0123456789abcdef'.split('');
+    var uuid = [], rnd = Math.random, r;
+    uuid[8] = uuid[13] = uuid[18] = uuid[23] = '-';
+    uuid[14] = '4';
+    for (var i = 0; i < 36; i++){
+     if (!uuid[i]){
+      r = 0 | rnd()*16;
+      uuid[i] = chars[(i == 19) ? (r & 0x3) | 0x8 : r & 0xf];
+     }
+    }
+    return (len!==null) ? uuid.join('').replace(/-/g, '').split('',len).join('') : uuid.join('');
+   }
+
+   /* function to handle toggle + fadeIn */
+   jQuery.fn.fadeToggle = function(speed, easing, callback) {
+    return this.animate({opacity: 'toggle'}, speed, easing, callback);
+   }
+
+   /* lazy load google maps api */
+   function loadScript(){
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
+    document.body.appendChild(script);
+   }
+
+   /* load map on visitors location */
+   function initialize(){
+    $j.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(geo){
+     $j('#city').val(geo.geoplugin_city);
+     $j('#region').val(geo.geoplugin_region);
+     $j('#country').val(geo.geoplugin_countryName);
+     $j('#latitude').val(geo.geoplugin_latitude);
+     $j('#longitude').val(geo.geoplugin_longitude);
+     var myLatlng = new google.maps.LatLng(geo.geoplugin_latitude, geo.geoplugin_longitude);
+     var myOptions = {
+      center: myLatlng,
+      zoom:10,
+      disableDefaultUI: true,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+     }
+     var map = new google.maps.Map(document.getElementById('mapCanvas'), myOptions);
+     var content = '<div id="content">'+
+                    '<div id="siteNotice"></div>'+
+                    '<h1 id="firstHeading" class="firstHeading">Your computer</h1>'+
+                     '<div id="bodyContent" class="mini left">'+
+                      '<p>City: '+geo.geoplugin_city+
+                      ' State: '+geo.geoplugin_region+
+                      '<br/>Country: '+geo.geoplugin_countryName+
+                      '<br/>Latitude: '+geo.geoplugin_latitude+
+                      '<br/>Longitude: '+geo.geoplugin_longitude+'</p>'+
+                     '</div>'+
+                    '</div>';
+     google.maps.event.trigger(map, 'resize');
+     map.setZoom(map.getZoom());
+     var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      icon:'http://google-maps-icons.googlecode.com/files/home.png',
+      title:'Your location?'
+     });
+     var infowindow = new google.maps.InfoWindow({
+      content: content
+     });
+     google.maps.event.addListener(marker, 'click', function() {
+      infowindow.open(map, marker);
+     });
+     google.maps.event.addListener(marker, "dragstart", function() {
+      map.closeInfoWindow();
+     });
+     google.maps.event.addListener(marker, "dragend", function() {
+      //document.getElementById('lat').value = marker.getPoint().lat();
+      //document.getElementById('lng').value = marker.getPoint().lng();
+     });
+    });
+   }
+
+   /* initialize the maps */
+   window.onload = loadScript;
+  </script>
+ </head>
+ <body>
+ <!-- end header template -->
+ <!-- wrapper -->
+ <div id="wrapper">
+  <div id="body">
+
+   <div class="panel clearHead hide" id="login">
+    <div class="cnt">
+     <div>
+      <form name="loginFrm" id="loginFrm" class="loginFrm" method="post" action="proxy.php?do=0x01a">
+       <fieldset>
+        <div class="head"><h2>Login</h2></div>
+        <div class="content innerShadow">
+         <div id="subContent" class="right">
+          <label for="user">Username
+           <input type="text" name="user" style="width:60%" maxlength="128">
+          </label>
+          <label for="pass">Password 
+           <input type="password" name="pass" style="width:60%" maxlength="128">
+          </label>
+          <div class="buttons">
+           <button type="submit" class="positive">
+            <img src="images/icons/icon-lock.png" alt=""/>Login
+           </button>
+           <a href="javascript:void(0)" class="positive" id="reset">
+            <img src="images/icons/icon-user.png" alt=""/>Reset?
+           </a>
+           <a href="javascript:void(0)" class="positive" id="reg1">
+            <img src="images/icons/icon-users.png" alt=""/>Register?
+           </a>
+          </div>
+         </div>
+        </div>
+       </fieldset>
+      </form>
+     </div>
+     </div>
+     <div class="ftr">
+      <div>&nbsp;</div>
+     </div>
+    </div>
+   </div>
+
+   <div class="panel clearHead hide" id="register">
+    <div class="cnt">
+     <div>
+      <div class="head"><h2>Register</h2></div>
+      <div class="content innerShadow">
+       <div id="userIcon" class="left">
+        <img src="images/icons/icon-user-large.png" />
+       </div>
+       <div id="subContent" class="right">
+        <form name="registerFrm" id="registerFrm" class="registerFrm" method="post" action="proxy.php?do=0x01b">
+         <fieldset>
+          <label for="user">Email
+           <input type="text" id="email" tabindex="1" name="email" style="width:60%" maxlength="128">
+          </label>
+          <label for="pass">Password
+           <input type="password" id="pass" tabindex="2" name="pass" style="width:60%" maxlength="128">
+          </label>
+          <label for="cpass">Confirm
+           <input type="password" id="cpass" tabindex="3" name="cpass" style="width:60%" maxlength="128">
+          </label>
+          <label for="fname">First name
+           <input type="text" id="fbane" tabindex="4" name="fname" style="width:60%" maxlength="128">
+          </label>
+          <label for="lname">Last name
+           <input type="text" id="lname" tabindex="5" name="lname" style="width:60%" maxlength="128">
+          </label>
+          <input type="hidden" name="city" id="city">
+          <input type="hidden" name="region" id="region">
+          <input type="hidden" name="country" id="country">
+          <input type="hidden" name="latitude" id="latitude">
+          <input type="hidden" name="longitude" id="longitude">
+          <input type="hidden" name="uuid" id="uuid">
+          <div class="buttons center">
+           <button type="submit" class="positive">
+            <img src="images/icons/icon-ok.png" alt=""/>Register 
+           </button>
+           <a href="javascript:void(0)" class="negative" id="reg3">
+            <img src="images/icons/icon-cancel.png" alt=""/>Cancel
+           </a>
+          </div>
+         </fieldset>
+        </form>
+       </div>
+       <div id="mapContainer" class="mapContainer">
+        <h2>&nbsp;</h2>
+        <div id="mapCanvas"></div>
+       </div>
+      </div>
+     </div>
+     </div>
+     <div class="ftr">
+      <div>&nbsp;</div>
+     </div>
+    </div>
+   </div>
+
+   <div class="panel clearHead hide" id="default">
+    <div class="cnt">
+     <div>
+      <div class="head"><h2>Default</h2></div>
+      <div class="content innerShadow">
+       <h2>Welcome to Cerberus!</h2><br/>
+       <p>The first PHP development framework that implements public key encryption for authentication, management of database objects, AES encryption for session objects and more, such as...</p>
+       <p>
+        <ol>
+         <li>Multiple authentication sources</li>
+         <li>Tiered access level support</li>
+         <li>User &amp; Group permission support</li>
+         <li>User public key encryption for all form data</li>
+         <li>AES encryption support for all database objects</li>
+         <li>Easy setup and configuration</li>
+         <li>Extensible as framework for future applications</li>
+        </ol>
+       </p>
+       <p>This project is in the alpha stages of development, but if your interested in assisting with development, testing or just general usage you can sign up <a href="javascript:void(0)" id="reg2">here...</a>.</p>
+      </div>
+     </div>
+     </div>
+     <div class="ftr">
+      <div>&nbsp;</div>
+     </div>
+    </div>
+
+  </div>
+ </div>
+ <!-- end wrapper -->
+ <!-- footer template -->
+ </body>
+</html>
+<!-- end footer template -->

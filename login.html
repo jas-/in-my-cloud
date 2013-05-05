@@ -1,0 +1,43 @@
+    <script type="text/javascript">
+     var $j = jQuery.noConflict();
+     $j(document).ready(function() {
+      $j('#forgot').click(function(){
+       $j('#fgt').toggle('slow');
+      });
+     });
+    </script>
+    <div class="cnt">
+     <div>
+      <form name="loginFrm" method="post" action="{$url}">
+       <fieldset>
+        <div class="head"><h2>Login</h2></div>
+        <div class="content">
+         <label for="user">Username
+          <input type="text" name="user" style="width:60%" maxlength="128">
+         </label>
+         <label for="pass">Password 
+          <input type="password" name="pass" style="width:60%" maxlength="128">
+         </label>
+         <input type="submit" value="Login">
+         <a href="#" id="forgot">Forgot credentials?</a>
+        </div>
+       </fieldset>
+      </form>
+      <div id="fgt" style="display:none">
+       <br/><hr/><br/>
+       <form name="resetFrm" method="post" action="{$url}">
+        <fieldset>
+         <legend><h2>Enter email</h2></legend>
+         <label for="user">Email
+          <input type="text" name="email" style="width:60%" maxlength="128">
+         </label>
+         <input type="submit" value="Reset password">
+        </fieldset>
+       </form>
+      </div>
+     </div>
+     </div>
+     <div class="ftr">
+      <div>&nbsp;</div>
+     </div>
+    </div>

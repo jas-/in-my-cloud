@@ -1,0 +1,127 @@
+ <!-- wrapper -->
+ <div id="wrapper">
+  <div id="body">
+
+   <div class="panel clearHead hide" id="login">
+    <div class="cnt">
+     <div>
+      <form name="loginFrm" id="loginFrm" class="loginFrm" method="post" action="proxy.php?do=0x01a">
+       <fieldset>
+        <div class="head"><h2>Login</h2></div>
+        <div class="content innerShadow">
+         <div id="subContent" class="right">
+          <label for="user">Username
+           <input type="text" name="user" style="width:60%" maxlength="128">
+          </label>
+          <label for="pass">Password 
+           <input type="password" name="pass" style="width:60%" maxlength="128">
+          </label>
+          <div class="buttons">
+           <button type="submit" class="positive">
+            <img src="{$templates}/images/icons/icon-lock.png" alt=""/>Login
+           </button>
+           <a href="javascript:void(0)" class="positive" id="reset">
+            <img src="{$templates}/images/icons/icon-user.png" alt=""/>Reset?
+           </a>
+           <a href="javascript:void(0)" class="positive" id="reg1">
+            <img src="{$templates}/images/icons/icon-users.png" alt=""/>Register?
+           </a>
+          </div>
+         </div>
+        </div>
+       </fieldset>
+      </form>
+     </div>
+     </div>
+     <div class="ftr">
+      <div>&nbsp;</div>
+     </div>
+    </div>
+   </div>
+
+   <div class="panel clearHead hide" id="register">
+    <div class="cnt">
+     <div>
+      <div class="head"><h2>Register</h2></div>
+      <div class="content innerShadow">
+       <div id="userIcon" class="left">
+        <img src="{$templates}/images/icons/icon-user-large.png" />
+       </div>
+       <div id="subContent" class="right">
+        <form name="registerFrm" id="registerFrm" class="registerFrm" method="post" action="proxy.php?do=0x01b">
+         <fieldset>
+          <label for="user">Email
+           <input type="text" id="email" tabindex="1" name="email" style="width:60%" maxlength="128">
+          </label>
+          <label for="pass">Password
+           <input type="password" id="pass" tabindex="2" name="pass" style="width:60%" maxlength="128">
+          </label>
+          <label for="cpass">Confirm
+           <input type="password" id="cpass" tabindex="3" name="cpass" style="width:60%" maxlength="128">
+          </label>
+          <label for="fname">First name
+           <input type="text" id="fbane" tabindex="4" name="fname" style="width:60%" maxlength="128">
+          </label>
+          <label for="lname">Last name
+           <input type="text" id="lname" tabindex="5" name="lname" style="width:60%" maxlength="128">
+          </label>
+          <input type="hidden" name="city" id="city">
+          <input type="hidden" name="region" id="region">
+          <input type="hidden" name="country" id="country">
+          <input type="hidden" name="latitude" id="latitude">
+          <input type="hidden" name="longitude" id="longitude">
+          <input type="hidden" name="uuid" id="uuid">
+          <div class="buttons center">
+           <button type="submit" class="positive">
+            <img src="{$templates}/images/icons/icon-ok.png" alt=""/>Register 
+           </button>
+           <a href="javascript:void(0)" class="negative" id="reg3">
+            <img src="{$templates}/images/icons/icon-cancel.png" alt=""/>Cancel
+           </a>
+          </div>
+         </fieldset>
+        </form>
+       </div>
+       <div id="mapContainer" class="mapContainer">
+        <h2>&nbsp;</h2>
+        <div id="mapCanvas"></div>
+       </div>
+      </div>
+     </div>
+     </div>
+     <div class="ftr">
+      <div>&nbsp;</div>
+     </div>
+    </div>
+   </div>
+
+   <div class="panel clearHead hide" id="default">
+    <div class="cnt">
+     <div>
+      <div class="head"><h2>Default</h2></div>
+      <div class="content innerShadow">
+       <h2>Welcome to Cerberus!</h2><br/>
+       <p>The first PHP development framework that implements public key encryption for authentication, management of database objects, AES encryption for session objects and more, such as...</p>
+       <p>
+        <ol>
+         <li>Multiple authentication sources</li>
+         <li>Tiered access level support</li>
+         <li>User &amp; Group permission support</li>
+         <li>User public key encryption for all form data</li>
+         <li>AES encryption support for all database objects</li>
+         <li>Easy setup and configuration</li>
+         <li>Extensible as framework for future applications</li>
+        </ol>
+       </p>
+       <p>This project is in the alpha stages of development, but if your interested in assisting with development, testing or just general usage you can sign up <a href="javascript:void(0)" id="reg2">here...</a>.</p>
+      </div>
+     </div>
+     </div>
+     <div class="ftr">
+      <div>&nbsp;</div>
+     </div>
+    </div>
+
+  </div>
+ </div>
+ <!-- end wrapper -->

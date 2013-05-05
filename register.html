@@ -1,30 +1,49 @@
     <div class="cnt">
      <div>
       <div class="head"><h2>Register</h2></div>
-      <div class="content">
-       <form name="registerFrm" method="post" action="{$url}">
-        <fieldset>
-         <legend><h2>Register for an account</h2></legend>
-         <label for="user">Email
-          <input type="text" name="email" style="width:60%" maxlength="128">
-         </label>
-         <label for="pass">Password
-          <input type="password" name="pass" style="width:60%" maxlength="128">
-         </label>
-         <label for="cpass">Confirm
-          <input type="password" name="cpass" style="width:60%" maxlength="128">
-         </label>
-         <label for="fname">First name
-          <input type="text" name="fname" style="width:60%" maxlength="128">
-         </label>
-         <label for="lname">Last name
-          <input type="text" name="lname" style="width:60%" maxlength="128">
-         </label>
-         <input type="submit" value="Request account">
-        </fieldset>
-       </form>
-       <h2>Location information</h2>
-       <div id="map"></div>
+      <div class="content innerShadow">
+       <div id="userIcon" class="left">
+        <img src="images/icons/icon-user-large.png" />
+       </div>
+       <div id="subContent" class="right">
+        <form name="registerFrm" id="registerFrm" class="registerFrm" method="post" action="proxy.php?do=0x01b">
+         <fieldset>
+          <label for="user">Email
+           <input type="text" id="email" tabindex="1" name="email" style="width:60%" maxlength="128">
+          </label>
+          <label for="pass">Password
+           <input type="password" id="pass" tabindex="2" name="pass" style="width:60%" maxlength="128">
+          </label>
+          <label for="cpass">Confirm
+           <input type="password" id="cpass" tabindex="3" name="cpass" style="width:60%" maxlength="128">
+          </label>
+          <label for="fname">First name
+           <input type="text" id="fbane" tabindex="4" name="fname" style="width:60%" maxlength="128">
+          </label>
+          <label for="lname">Last name
+           <input type="text" id="lname" tabindex="5" name="lname" style="width:60%" maxlength="128">
+          </label>
+          <input type="hidden" name="city" id="city">
+          <input type="hidden" name="region" id="region">
+          <input type="hidden" name="country" id="country">
+          <input type="hidden" name="latitude" id="latitude">
+          <input type="hidden" name="longitude" id="longitude">
+          <input type="hidden" name="uuid" id="uuid">
+          <div class="buttons center">
+           <button type="submit" class="positive">
+            <img src="images/icons/icon-ok.png" alt=""/>Register 
+           </button>
+           <a href="javascript:void(0)" class="negative" id="reg3">
+            <img src="images/icons/icon-cancel.png" alt=""/>Cancel
+           </a>
+          </div>
+         </fieldset>
+        </form>
+       </div>
+       <div id="mapContainer" class="mapContainer">
+        <h2>&nbsp;</h2>
+        <div id="mapCanvas"></div>
+       </div>
       </div>
      </div>
      </div>

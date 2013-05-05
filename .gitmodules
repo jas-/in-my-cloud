@@ -1,0 +1,9 @@
+[submodule "js/3rd-party/comm.js"]
+	path = js/3rd-party/comm.js
+	url = https://github.com/jas-/comm.js.git
+[submodule "js/3rd-party/jQuery.handleStorage"]
+	path = js/3rd-party/jQuery.handleStorage
+	url = https://github.com/jas-/jQuery.handleStorage.git
+[submodule "js/3rd-party/jQuery.pidCrypt"]
+	path = js/3rd-party/jQuery.pidCrypt
+	url = https://github.com/jas-/jQuery.pidCrypt.git

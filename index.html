@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
  <head>
   <title>in-my-cloud.com</title>
+
   <link rel="shortcut icon" href="images/icons/icon-lock.png" type="image/x-icon">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
@@ -19,114 +20,31 @@
   <script type="text/javascript" src="js/jquery-1.4.3.min.js"></script>
   <script type="text/javascript" src="js/jquery-ui-1.8.5.custom.min.js"></script>
 
-  <!-- jQuery pidCrypt libraries
-  <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/pidcrypt_c.js"></script>
-  <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/pidcrypt_util_c.js"></script>
-  <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/md5_c.js"></script>
-  <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/asn1_c.js"></script>
-  <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/jsbn_c.js"></script>
-  <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/rng_c.js"></script>
-  <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/prng4_c.js"></script>
-  <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/rsa_c.js"></script>
-  <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/aes_core_c.js"></script>
-  <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/aes_cbc_c.js"></script> -->
-
-  <!-- jQuery.pidCrypt plugin
-  <script src="js/3rd-party/jQuery.pidCrypt/libs/js/jquery.pidCrypt.js"></script> -->
-
-  <!-- jQuery.handleStorage plugin
-  <script src="js/3rd-party/jQuery.handleStorage/jquery.handleStorage.js"></script> -->
-
-  <!-- comm.js plugin
-  <script src="js/3rd-party/comm.js/comm.js"></script> -->
-
   <!-- move these into their own script -->
   <script type="text/javascript">
    var $j = jQuery.noConflict();
    $j(document).ready(function(){
 
-		$j('#default').load('default.html');
-		$j('#login').load('login.html');
+		$j('#default').load('default.html').fadeIn('slow');
+		$j('#login').load('login.html').fadeIn('slow');
 
-		/* allow draggable items
-		$j('#login, #default, #register').draggable({
-			cursor:'move',
-			zIndex:9999,
-			stack:'div',
-			cancel:'mapContainer'
-		}); */
-
-		/* load registration form
+		/* bind to register buttons */
 		$j('#reg1, #reg2, #reg3').click(function(){
 			$j('#register, #default').fadeToggle();
 			if ($j(this).attr('id')!=='reg3'){
 				initialize();
 				$j('#email').focus();
 			}
-		}); */
+		});
 
+		/* allow draggable items */
+		$j('#login, #default, #register').draggable({
+			cursor:'move',
+			zIndex:9999,
+			stack:'div',
+			cancel:'mapContainer'
+		});
 	});
-
-	/* lazy load google maps api */
-	function loadScript(){
-		var script = document.createElement("script");
-		script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
-		document.body.appendChild(script);
-	}
-
-   /* load map on visitors location */
-   /*function initialize(){
-    $j.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(geo){
-     $j('#city').val(geo.geoplugin_city);
-     $j('#region').val(geo.geoplugin_region);
-     $j('#country').val(geo.geoplugin_countryName);
-     $j('#latitude').val(geo.geoplugin_latitude);
-     $j('#longitude').val(geo.geoplugin_longitude);
-     var myLatlng = new google.maps.LatLng(geo.geoplugin_latitude, geo.geoplugin_longitude);
-     var myOptions = {
-      center: myLatlng,
-      zoom:10,
-      disableDefaultUI: true,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-     }
-     var map = new google.maps.Map(document.getElementById('mapCanvas'), myOptions);
-     var content = '<div id="content">'+
-                    '<div id="siteNotice"></div>'+
-                    '<h1 id="firstHeading" class="firstHeading">Your computer</h1>'+
-                     '<div id="bodyContent" class="mini left">'+
-                      '<p>City: '+geo.geoplugin_city+
-                      ' State: '+geo.geoplugin_region+
-                      '<br/>Country: '+geo.geoplugin_countryName+
-                      '<br/>Latitude: '+geo.geoplugin_latitude+
-                      '<br/>Longitude: '+geo.geoplugin_longitude+'</p>'+
-                     '</div>'+
-                    '</div>';
-     google.maps.event.trigger(map, 'resize');
-     map.setZoom(map.getZoom());
-     var marker = new google.maps.Marker({
-      position: myLatlng,
-      map: map,
-      icon:'http://google-maps-icons.googlecode.com/files/home.png',
-      title:'Your location?'
-     });
-     var infowindow = new google.maps.InfoWindow({
-      content: content
-     });
-     google.maps.event.addListener(marker, 'click', function() {
-      infowindow.open(map, marker);
-     });
-     google.maps.event.addListener(marker, "dragstart", function() {
-      map.closeInfoWindow();
-     });
-     google.maps.event.addListener(marker, "dragend", function() {
-      document.getElementById('lat').value = marker.getPoint().lat();
-      document.getElementById('lng').value = marker.getPoint().lng();
-     });
-    });
-   }*/
-
-   /* initialize the maps */
-   //window.onload = loadScript;
   </script>
  </head>
  <body>

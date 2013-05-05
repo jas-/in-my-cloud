@@ -1,40 +1,57 @@
+    <!-- jQuery pidCrypt libraries
+    <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/pidcrypt_c.js"></script>
+    <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/pidcrypt_util_c.js"></script>
+    <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/md5_c.js"></script>
+    <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/asn1_c.js"></script>
+    <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/jsbn_c.js"></script>
+    <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/rng_c.js"></script>
+    <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/prng4_c.js"></script>
+    <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/rsa_c.js"></script>
+    <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/aes_core_c.js"></script>
+    <script src="js/3rd-party/jQuery.pidCrypt/libs/js/pidCrypt/javascripts/compressed/aes_cbc_c.js"></script> -->
+
+    <!-- jQuery.pidCrypt plugin
+    <script src="js/3rd-party/jQuery.pidCrypt/libs/js/jquery.pidCrypt.js"></script> -->
+
+    <!-- jQuery.handleStorage plugin
+    <script src="js/3rd-party/jQuery.handleStorage/jquery.handleStorage.js"></script> -->
+
+    <!-- comm.js plugin
+    <script src="js/3rd-party/comm.js/comm.js"></script> -->
     <script type="text/javascript">
      var $j = jQuery.noConflict();
-     $j(document).ready(function() {
-      $j('#forgot').click(function(){
-       $j('#fgt').toggle('slow');
-      });
+     $j(document).ready(function(){
+
      });
     </script>
     <div class="cnt">
      <div>
-      <form name="loginFrm" method="post" action="{$url}">
+      <form name="loginFrm" id="loginFrm" class="loginFrm" method="post" action="">
        <fieldset>
         <div class="head"><h2>Login</h2></div>
-        <div class="content">
-         <label for="user">Username
-          <input type="text" name="user" style="width:60%" maxlength="128">
-         </label>
-         <label for="pass">Password 
-          <input type="password" name="pass" style="width:60%" maxlength="128">
-         </label>
-         <input type="submit" value="Login">
-         <a href="#" id="forgot">Forgot credentials?</a>
+        <div class="content innerShadow">
+         <div id="subContent" class="right">
+          <label for="user">Username
+           <input type="text" name="user" style="width:60%" maxlength="128">
+          </label>
+          <label for="pass">Password 
+           <input type="password" name="pass" style="width:60%" maxlength="128">
+          </label>
+          <div class="buttons">
+           <button type="submit" class="positive">
+            <img src="images/icons/icon-lock.png" alt=""/>Login
+           </button>
+           <a href="javascript:void(0)" class="positive" id="reset">
+            <img src="images/icons/icon-user.png" alt=""/>Reset?
+           </a>
+           <a href="javascript:void(0)" class="positive" id="reg1">
+            <img src="images/icons/icon-users.png" alt=""/>Register?
+           </a>
+          </div>
+         </div>
         </div>
        </fieldset>
       </form>
-      <div id="fgt" style="display:none">
-       <br/><hr/><br/>
-       <form name="resetFrm" method="post" action="{$url}">
-        <fieldset>
-         <legend><h2>Enter email</h2></legend>
-         <label for="user">Email
-          <input type="text" name="email" style="width:60%" maxlength="128">
-         </label>
-         <input type="submit" value="Reset password">
-        </fieldset>
-       </form>
-      </div>
      </div>
      </div>
      <div class="ftr">

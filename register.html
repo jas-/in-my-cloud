@@ -1,3 +1,65 @@
+     <script>
+	  /* lazy load google maps api */
+	  function loadScript(){
+		var script = document.createElement("script");
+		script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
+		document.body.appendChild(script);
+	  }
+
+     /* load map on visitors location */
+     function initialize(){
+      $j.getJSON('http://www.geoplugin.net/json.gp?jsoncallback=?', function(geo){
+       $j('#city').val(geo.geoplugin_city);
+       $j('#region').val(geo.geoplugin_region);
+       $j('#country').val(geo.geoplugin_countryName);
+       $j('#latitude').val(geo.geoplugin_latitude);
+       $j('#longitude').val(geo.geoplugin_longitude);
+       var myLatlng = new google.maps.LatLng(geo.geoplugin_latitude, geo.geoplugin_longitude);
+       var myOptions = {
+        center: myLatlng,
+        zoom:10,
+        disableDefaultUI: true,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+       }
+       var map = new google.maps.Map(document.getElementById('mapCanvas'), myOptions);
+       var content = '<div id="content">'+
+                      '<div id="siteNotice"></div>'+
+                      '<h1 id="firstHeading" class="firstHeading">Your computer</h1>'+
+                       '<div id="bodyContent" class="mini left">'+
+                        '<p>City: '+geo.geoplugin_city+
+                        ' State: '+geo.geoplugin_region+
+                        '<br/>Country: '+geo.geoplugin_countryName+
+                        '<br/>Latitude: '+geo.geoplugin_latitude+
+                        '<br/>Longitude: '+geo.geoplugin_longitude+'</p>'+
+                       '</div>'+
+                      '</div>';
+       google.maps.event.trigger(map, 'resize');
+       map.setZoom(map.getZoom());
+       var marker = new google.maps.Marker({
+        position: myLatlng,
+        map: map,
+        icon:'http://google-maps-icons.googlecode.com/files/home.png',
+        title:'Your location?'
+       });
+       var infowindow = new google.maps.InfoWindow({
+        scontent: content
+       });
+       google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map, marker);
+       });
+       google.maps.event.addListener(marker, "dragstart", function() {
+        map.closeInfoWindow();
+       });
+       google.maps.event.addListener(marker, "dragend", function() {
+        document.getElementById('lat').value = marker.getPoint().lat();
+        document.getElementById('lng').value = marker.getPoint().lng();
+       });
+      });
+     }
+
+     /* initialize the maps */
+     window.onload = loadScript;
+    </script>
     <div class="cnt">
      <div>
       <div class="head"><h2>Register</h2></div>
